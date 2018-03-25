@@ -8,20 +8,22 @@ CAPTURE DE TRAMES
 
 Question 1)
 
-Ifconfig est utilisé pour configurer (et maintenir ensuite) les inter‐
+Ifconfig est utilisé pour configurer (et maintenir ensuite) les inter
 faces réseau résidentes dans le noyau. Il est utilisé lors du boot pour
-configurer  la  plupart d'entre-elles et ainsi rendre le système opéra‐
+configurer  la  plupart d'entre-elles et ainsi rendre le système opéra
 tionnel. Après, ce n'est quasiment plus utilisé que pour le débogage ou
 pour des réglages si nécessaire.
 
-Si  aucun  argument n'est donné, ifconfig affiche simplement l'état des
-interfaces actuellement définies. Si seul le  paramètre  interface  est
-donné,  il  affiche  seulement l'état de l'interface correspondante; si
+Si aucun argument n'est donné, ifconfig affiche simplement l'état des
+interfaces actuellement définies. Si seul le paramètre interface est
+donné, il affiche seulement l'état de l'interface correspondante; si
 seul le paramètre -a est fourni, il affiche l'état de toutes les inter‐
 faces,  même  celles  qui  ne sont pas actives. Autrement, il considère
 qu'il faut positionner de nouvelles valeurs.
 
 Question 2)
+
+ifconfig
 
 eth0      Link encap:Ethernet  HWaddr 98:90:96:bb:7f:6f  
           inet adr:192.168.5.61  Bcast:192.168.5.255  Masque:255.255.255.0
@@ -46,10 +48,12 @@ lo        Link encap:Boucle locale
 Question 3)
 
 Celle qui nous permet de communiquer avec d'autres machines est: "eth0"
+lo étant l'adresse de loopback qui permet de contacter la machine elle-même, et ce
+sans passer par un quelconque réseau situé en externe.
 
 Question 4)
 
-Adresse MAC : 98:90:96:bb:7f:6f (Hardware Adress)
+Adresse MAC : 98:90:96:bb:7f:6f (Hardware Address)
 IPv4        : 192.168.5.61
 
 Question 5)
@@ -98,9 +102,11 @@ Internet Protocol Version 4, Src: 192.168.5.60, Dst: 192.168.5.61
 
 Internet Control Message Protocol
 
+Il s'agit donc des protocoles Ethernet, IPv4 et enfin ICMP.
+
 Question 9)
 
-Ethernet : Couche de liaison (Niveau 2)
+Ethernet : Couche Physique (Niveau 1) et Liaison (Niveau 2)
 IPv4 : Couche Réseau (Niveau 3)
 ICMP : Couche Réseau (Niveau 3)
 
@@ -128,11 +134,12 @@ Deuxième champ : .... 0101 = Header Length: 20 bytes (5) (Longueur de l'en-têt
 Question 3)
 
 mii-tool est une commande UNIX permettant d'afficher et modifier certains paramètres de la carte réseau, comme sa vitesse ou son duplex.
-
 ethtool est une commande UNIX permettant d'afficher et modifier certains paramètres de la carte réseau, comme sa vitesse.
 
 Speed: 100Mb/s
 	Duplex: Full
+	
+Ces commandes interviennent donc au niveau de la couche réseau (Niveau 3).
 
 Question 4)
 
@@ -161,7 +168,7 @@ CONCENTRATEUR (Hub)
 
 Question 1) 
 
-On constate que le ping de la machine A vers C est aussi intercepté par la machine B (Celle qui ne reçoit aucun ping.
+On constate que le ping de la machine A vers C est aussi intercepté par la machine B (Celle qui ne reçoit aucun ping).
 
 Cet équipement consiste donc à partager un réseau qui est commun à tous les postes connectés (contrairement à un switch qui filtre).
 
@@ -173,7 +180,8 @@ Cela sert à ne pas intercepter les paquets sur le réseau auxquel la machine n'
 
 Question 3)
 
-Le mode ici est half-duplex. Il consiste à partager sur un même fil l'envoi ainsi que la réception des paquets.
+Le mode ici est half-duplex. Il consiste à partager sur un même fil l'envoi ainsi que la réception des paquets, empêchant ainsi
+l'émission et la réception en simultané.
 
 Question 4)
 
@@ -192,7 +200,8 @@ collisions:416
 
 collisions:438
 
-Un hub divise la bande passante en fonction du nombre de postes connectés au réseau. De ce fait, il y a des collisions pour accéder au réseau.
+Un hub divise la bande passante en fonction du nombre de postes connectés au réseau, puisque le réseau est partagé entre les machines. 
+De ce fait, on observe des collisions pour accéder au réseau, puisque plusieurs d'entre-elles émettent au même moment.
 
 
 ====================
@@ -223,7 +232,8 @@ collisions:438
 
 Le nombre de collisions n'a pas changé, la bande-passante non plus entre 2 et 4 postes.
 
-Un Switch ne divise pas la bande passante en fonction du nombre de postes connectés au réseau, et ce grâce au Full-Duplex. Il n'y a pas de collision à gérer, et on ne peut pas écouter le réseau contrairement au concentrateur (plus sécurisé).
+Un Switch ne divise pas la bande passante en fonction du nombre de postes connectés au réseau, et ce grâce au Full-Duplex. 
+Il n'y a pas de collision à gérer, et on ne peut pas écouter le réseau contrairement au concentrateur (plus sécurisé).
 
 
 Q2) Lorsque le switch reçoit une trame, il vérifie si l'adresse MAC est présente ou non dans sa table d'adresses. Si elle n'est pas présente, il l'a rajoute. 
@@ -232,10 +242,9 @@ Lorsque le switch doit envoyer une trame à une adresse MAC inconnue, il envoie 
 Q3) Il n'a pas forcément besoin de l'adresse MAC, car il peut l'obtenir par lui-même (cf Q2). 
 Il a toutefois besoin de connaître l'adresse IP des paquets, afin d'envoyer le paquet au bon destinataire.
 
-Il interviennent au niveau de la couche liaison (Niveau 2) ainsi que la couche réseau (Niveau 3)
 
-Pour les switchs, Les unités de données qu'ils transportent sont des trames.
-Pour les hubs, Les unités de données qu'ils transportent sont des bits.
+Les hubs, agissent au niveau 1 du modèle OSI (Physique) et les unités de données qu'ils transportent sont des bits.
+Les switchs agissent au niveau 2 du modèle OSI (Liaison), et les unités de données qu'ils transportent sont des trames.
 
 Q4)
 
@@ -247,6 +256,10 @@ Enfin, il n'y a pas de collision avec un switch, contrairement à un hub.
 
 Q5) Le poste qui envoie à l'adresse 192.168.5.255 reçoit une réponse de tous les postes du réseau.
 Il s'agit d'un transfert en broadcast (diffusion sur tout le réseau). l'adresse ethernet de destination des trames reçues est celle du poste qui a diffusé l'envoi des paquets en broadcast.
+
+=======
+ROUTEUR
+=======
 
 Q6) 
 
@@ -269,10 +282,20 @@ Le paquet envoyé depuis le poste 1 vers le poste 3 est l'adresse MAC du routeur
 
 Le paquet envoyé depuis le poste 3 vers le poste 1 est l'adresse MAC du routeur correspondant à la passerelle 192.168.1.200  (Address: Cisco_81:81:c2 (00:10:7b:81:81:c3))
 
-Q9) --
+Q9) L'adresse IP de la trame Ethernet n'appartient pas au réseau local, donc le poste utilise l'adresse par défaut (default gateway) pour envoyer les paquets a l'extérieur.
 
-Q10) --
+Q10) Fait avec le binôme LAHAYE Jean et CORBAU Martin
 
+Applications |											             | Applications
+Présentation |											             | Présentation
+Session      |											             ^ Session
+Transport    |							      _________		         | Transport
+Réseau       |		  _________		         |Réseau   |	    	 | Réseau
+Liaison      |		 |Liaison  |	         |Liaison  |		     | Liaison
+Physique      --->--- Physique  ------>------ Physique  ------>------  Physique
+			 
+Machine 1              Switch                  Routeur                 Machine 2
+192.168.5.60                      192.168.5.200       192.168.1.200    192.168.1.100
 
 Q11) connect: Network is unreachable
 
@@ -283,11 +306,28 @@ Q12) Les paquets sont captés par les postes du réseau 192.168.1.0
 
 Q13) ça change rien, difference entre unicast et diffusion dirigée?
 
-Q14) -- 
+Q14) La diffusion limitée permet une transmission qui est limitée aux hôtes du réseau local. 
+     Une diffusion dirigée est envoyée à tous les hôtes d'un réseau particulier, qui n'est pas forcement locale.
+     L'unicast permet une transmission vers un seul hôte.
+      
 
-Q15) --
+Q15) Les routeurs forment les limites d'un domaine de diffusion, donc tout paquet transmis en diffusion limitée
+     sera detruit lorsqu'il passe par un routeur.
 
+     Dans le cas d'une diffusion dirigée les routeur font envoyer les paquets vers le réseau cible.
+     Par défaut les routeurs n'acheminent pas les diffusions dirigées, donc il est nécessaire de le 
+     configurer pour que ça soit possible.
 
+     Dans le cas d'un unicast le paquet est redirigé vers l'hôte cible.
+      
+     Les routeurs effectuent la transmission entre deux ou plusieurs réseaux,
+     alors que l'unicast est effectué par défaut, la diffusion dirigée, pour des 
+     raisons de securité, doit être configurée par l'administrateur du réseau.
+    
+===
+ARP
+===
+	
 Q1) 
 
 Address                  HWtype  HWaddress           Flags Mask            Iface
@@ -307,4 +347,29 @@ Address                  HWtype  HWaddress           Flags Mask            Iface
 192.168.5.1                      (incomplet)                               eth0
 192.168.5.200            ether   00:10:7b:81:81:c2   C                     eth0
 193.49.225.30            ether   b4:e9:b0:c8:a1:40   C                     eth0
+
+
+Q2) Le cache ARP fait la correspondance entre les adresses IP et MAC des hôtes "contactés" récemment.
+    Si les adresses ne sont plus utilisées, et ce après un certain délai, elles sont supprimées.
+
+
+Q3) La machine a fait une requête ARP en utilisant l'adresse IP de l'hôte voisin
+(une diffusion sur le réseau local) et reçoit la réponse du voisin contenant son adresse MAC.
+
+
+Q4) Code du protocole: 0x0800
+
+Q5) L'adresse MAC de l'hôte cible.
+
+Q6) Src: Dell_bb:7f:6f (98:90:96:bb:7f:6f)
+
+Q7) La taille d'un paquet ARP est inférieure a celle d'un paquet Ethernet, 
+    afin de respecter la taille du paquet, il est "remplit" avec des 0 ou 
+    des motifs répétitifs.
+
+Q8)
+                                  2 octets    6 octets     4 octets      6 octets         4 octets 
++--------+--------+------+------+-----------+------------+-----------+-----------------+----------------+
+| 0x0001 | 0x0800 | 0x06 | 0x04 | Operation | MAC source | IP source | MAC destination | IP destination | 
++--------+--------+------+------+-----------+------------+-----------+-----------------+----------------+
 
